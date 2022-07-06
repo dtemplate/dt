@@ -1,0 +1,24 @@
+[package]
+name = "dt"
+version = "0.1.0"
+edition = "2021"
+authors = ["Theryston Santos <devtheryston@gmail.com>"]
+default-run = "dt"
+license = "MIT"
+repository = "https://github.com/dtemplate/dt"
+description = "Provides the dt executable"
+
+[[bin]]
+name = "dt"
+path = "src/main.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+core_dt = { path = "../core" }
+
+[package.metadata.winres]
+OriginalFilename = "dt.exe"
+LegalCopyright = "© Dev Template contributors. MIT licensed."
+ProductName = "Dev Template"
+FileDescription = "Dev Template: Build your entire project with one command"

@@ -1,0 +1,18 @@
+[package]
+name = "core_dt"
+version = "0.1.0"
+edition = "2021"
+authors = ["Theryston Santos <devtheryston@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/dtemplate/dt"
+description = "Build your entire project with one command 🚀"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+
+[[example]]
+name = "basic"
+path = "examples/basic.rs"
