@@ -8,14 +8,11 @@ pub struct TemplateHandler {
 
 impl TemplateHandler {
   pub fn new(options: TemplateHandlerOptions) -> Self {
-    let template_handler = Self {
-      name: options.name.clone(),
-    };
-    template_handler
+    Self { name: options.name }
   }
 
   pub fn get_template_by_name(&self, name: String) -> String {
-    String::from(name)
+    name
   }
 }
 
