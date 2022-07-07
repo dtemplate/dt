@@ -72,7 +72,7 @@ pub mod tests {
   use super::*;
 
   #[test]
-  pub fn get_template_by_name() {
+  fn get_template_by_name() {
     let template_handler = TemplateHandler::new();
     let template =
       template_handler.get_template_by_name(String::from("Hello-World"));
