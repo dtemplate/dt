@@ -1,3 +1,8 @@
+use core_dt::TemplateHandler;
+
 fn main() {
-  println!("Hello, world! I'm a Rust program.");
+  let template_handler = TemplateHandler::new();
+  let template =
+    template_handler.get_template_by_name(String::from("Hello-World"));
+  println!("{}", template.template_configuration.name);
 }
