@@ -41,7 +41,7 @@ impl TemplateFileHandler {
 
     let folder_name = format!(
       "{}-{}",
-      self.repository_full_name.split("/").last().unwrap(),
+      self.repository_full_name.split('/').last().unwrap(),
       self.repository_default_branch
     );
 
