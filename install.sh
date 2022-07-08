@@ -17,8 +17,6 @@ else
 	esac
 fi
 
-dt_uri=""
-
 if [ $# -eq 0 ]; then
 	dt_uri="https://github.com/dtemplate/dt/releases/latest/download/dt-${target}.zip"
 else
