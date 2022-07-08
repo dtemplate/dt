@@ -1,5 +1,4 @@
 #!/bin/sh
-# TODO(everyone): Keep this script simple and easily auditable.
 
 set -e
 
@@ -18,7 +17,13 @@ else
 	esac
 fi
 
-dt_uri="https://github.com/dtemplate/dt/releases/latest/download/dt-${target}.zip"
+dt_uri=""
+
+if [ $# -eq 0 ]; then
+	dt_uri="https://github.com/dtemplate/dt/releases/latest/download/dt-${target}.zip"
+else
+	dt_uri="https://github.com/dtemplate/dt/releases/download/${1}/dt-${target}.zip"
+fi
 
 
 dt_install="${DT_INSTALL:-$HOME/.dt}"
@@ -35,7 +40,7 @@ chmod +x "$exe"
 rm "$exe.zip"
 
 echo "dt was installed successfully to $exe"
-if command -v deno >/dev/null; then
+if command -v dt >/dev/null; then
 	echo "Run 'dt --help' to get started"
 else
 	case $SHELL in
