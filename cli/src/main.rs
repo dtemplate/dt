@@ -36,7 +36,7 @@ fn main() {
 }
 
 fn use_template(template_name: String) {
-  println!("\n");
+  println!();
   let current_dir = env::current_dir().unwrap();
   let template_handler = TemplateHandler::new(template_name);
   let get_file_progress_bar = ProgressBar::new(100);
@@ -50,6 +50,6 @@ fn use_template(template_name: String) {
   get_file_progress_bar.finish();
 
   println!("  🚀  Running template commands...");
-  print!("\n");
+  println!();
   template_handler.run_commands(current_dir);
 }
