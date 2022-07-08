@@ -8,10 +8,20 @@ dt new -t Hello-World
 
 No more installing and configuring all basic dependencies manually every time you start a new project. the dev template can install and configure everything with a single command. A CLI that runs templates with a sequence of commands to launch your projects. Anyone (including you) can create a template that will install and run the commands needed to start your projects.
 
-## Installing the command line tool
+## Install
+
+for the installation of all versions it is necessary to have [unzip](http://stahlworks.com/dev/index.php?tool=zipunzip) installed
+
+Shell (Mac, Linux):
 
 ```sh
-# Coming soon
+curl -fsSL https://raw.githubusercontent.com/dtemplate/dt/master/install.sh | sh
+```
+
+PowerShell (Windows):
+
+```powershell
+iwr https://raw.githubusercontent.com/dtemplate/dt/master/install.ps1 -useb | iex
 ```
 
 ## Example
