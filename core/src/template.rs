@@ -101,11 +101,11 @@ impl TemplateHandler {
       println!("Executing command: {}", command);
 
       if command.starts_with("cd") {
-        let path = command.split(" ").collect::<Vec<&str>>()[1];
+        let path = command.split(' ').collect::<Vec<&str>>()[1];
         env::set_current_dir(PathBuf::from(path))
           .expect("Error to set current dir");
       } else {
-        let command_split = command.split(" ").collect::<Vec<&str>>();
+        let command_split = command.split(' ').collect::<Vec<&str>>();
         let command_name = command_split[0];
         let command_args = command_split[1..].to_vec();
         let command = Command::new(command_name).args(&command_args).output();
