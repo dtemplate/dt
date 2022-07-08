@@ -33,7 +33,7 @@ jobs:
           target: ${{ matrix.target }}
           override: true
       - name: install build essential
-        run: sudo apt update && sudo apt install build-essential
+        run: sudo apt update && sudo dnf install libxml2-devel zlib-devel
       - name: Install x86 Build Dependencies
         if: ${{ matrix.target == 'i686-pc-windows-gnu' || matrix.target == 'i686-unknown-linux-gnu' }}
         run: sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt-get install libssl-dev:i386 clang
