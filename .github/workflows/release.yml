@@ -24,7 +24,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install Build Dependencies
-        run: sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt-get install libssl-dev:i386 clang && sudo apt-get install pkg-config libssl-dev clang
+        run: sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt-get install clang && sudo apt-get install pkg-config clang
       - name: Build project
         uses: actions-rs/cargo@v1
         env:
