@@ -23,14 +23,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Install Build Dependencies
-        run: sudo dpkg --add-architecture i386
-      - name: Build project
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Build code
         uses: actions-rs/cargo@v1
-        env:
-          TARGET_CC: clang
-          OPENSSL_LIB_DIR: /usr/lib/i386-linux-gnu/
-          OPENSSL_INCLUDE_DIR: /usr/include/openssl/
         with:
           command: build
           args: --release
