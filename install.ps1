@@ -35,7 +35,7 @@ if (!(Test-Path $BinDir)) {
 
 curl -o $DtZip $DtUri
 
-7z x $DtZip -o$BinDir -r
+7z x $DtZip
 
 Remove-Item $DtZip
 
