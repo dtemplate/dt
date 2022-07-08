@@ -1,7 +1,9 @@
 use serde::{Deserialize, Serialize};
+use std::env;
 use std::fs::{self, File};
 use std::io::Write;
 use std::path::PathBuf;
+use std::process::Command;
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -89,6 +91,35 @@ impl TemplateHandler {
     self.save_file(output_path, base_structure);
   }
 
+  pub fn run_commands(&self, base_path: PathBuf) {
+    let template = self.get_by_name();
+    let commands = template.template_configuration.commands;
+
+    env::set_current_dir(&base_path).expect("Error to set current dir");
+
+    for command in commands {
+      println!("Executing command: {}", command);
+
+      if command.starts_with("cd") {
+        let path = command.split(" ").collect::<Vec<&str>>()[1];
+        env::set_current_dir(PathBuf::from(path))
+          .expect("Error to set current dir");
+      } else {
+        let command_split = command.split(" ").collect::<Vec<&str>>();
+        let command_name = command_split[0];
+        let command_args = command_split[1..].to_vec();
+        let command = Command::new(command_name).args(&command_args).output();
+        match command {
+          Ok(output) => {
+            println!("{}", String::from_utf8_lossy(&output.stdout));
+            println!("{}", String::from_utf8_lossy(&output.stderr));
+          }
+          Err(error) => println!("Erro to execute command: {}", error),
+        }
+      }
+    }
+  }
+
   fn save_file(
     &self,
     output_base_path: PathBuf,
@@ -139,6 +170,15 @@ pub mod tests {
   fn download_base_structure() {
     let template_handler = TemplateHandler::new("Hello-World".to_string());
     let output_path = PathBuf::from("Hello_World");
-    template_handler.download_base_structure(output_path);
+    template_handler.download_base_structure(output_path.clone());
+    assert!(output_path.exists());
+  }
+
+  #[test]
+  fn run_commands() {
+    let template_handler = TemplateHandler::new("Hello-World".to_string());
+    let output_path = PathBuf::from("Hello_World");
+    template_handler.download_base_structure(output_path.clone());
+    template_handler.run_commands(output_path);
   }
 }
