@@ -33,7 +33,7 @@ if (!(Test-Path $BinDir)) {
   New-Item $BinDir -ItemType Directory | Out-Null
 }
 
-curl -Lo $DtZip $DtUri
+curl -o $DtZip $DtUri
 
 tar xf $DtZip -C $BinDir
 
