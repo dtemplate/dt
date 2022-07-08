@@ -16,6 +16,9 @@ path = "src/main.rs"
 
 [dependencies]
 core_dt = { path = "../core" }
+clap = "3.2.8"
+indicatif = {version = "0.16.2", features = ["rayon"]}
+rayon = "1.5.3"
 
 [package.metadata.winres]
 OriginalFilename = "dt.exe"
