@@ -1,39 +1,70 @@
-name: Build and upload binaries to release
-
 on:
-  repository_dispatch:
-    types: [tag-created]
+  workflow_call:
+
+  push:
+    branches:
+      - master
+
+name: Build
 
 jobs:
-  release:
-    name: Build and Release
-    runs-on: ${{ matrix.os }}
+  build:
+    name: Build
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        include:
-          - os: ubuntu-22.04
-            artifact_name: dt
-            asset_name: dt-ubuntu-22.04.zip
-          - os: macos-11
-            artifact_name: dt
-            asset_name: dt-macos-11.zip
-          - os: windows-2022
-            artifact_name: dt.exe
-            asset_name: dt-windows-2022.zip
+        target:
+          - i686-pc-windows-gnu
+          - i686-unknown-linux-gnu
+          - x86_64-apple-darwin
+          - x86_64-pc-windows-gnu
+          - x86_64-unknown-linux-gnu
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Build project
-        run: cargo build --release --locked
+      - uses: actions/checkout@v2
+      - name: Creating a new tag
+        id: new_version
+        uses: phish108/autotag-action@1.1.50
+        with:
+          github-token: ${{ secrets.TOKEN_GITHUB }}
+          with-v: "false"
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: ${{ matrix.target }}
+          override: true
+      - name: Install x86 Build Dependencies
+        if: ${{ matrix.target == 'i686-pc-windows-gnu' || matrix.target == 'i686-unknown-linux-gnu' }}
+        run: sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt-get install libssl-dev:i386 clang
+      - name: Install x86_64 Build Dependencies
+        if: ${{ matrix.target != 'i686-pc-windows-gnu' && matrix.target != 'i686-unknown-linux-gnu' }}
+        run: sudo apt-get update && sudo apt-get install pkg-config libssl-dev clang
+      - name: Build x86
+        uses: actions-rs/cargo@v1
+        if: ${{ matrix.target == 'i686-pc-windows-gnu' || matrix.target == 'i686-unknown-linux-gnu' }}
+        env:
+          TARGET_CC: clang
+          OPENSSL_LIB_DIR: /usr/lib/i386-linux-gnu/
+          OPENSSL_INCLUDE_DIR: /usr/include/openssl/
+        with:
+          command: build
+          args: --release --target=${{ matrix.target }}
+      - name: Build x86_64
+        uses: actions-rs/cargo@v1
+        if: ${{ matrix.target != 'i686-pc-windows-gnu' && matrix.target != 'i686-unknown-linux-gnu' }}
+        env:
+          TARGET_CC: clang
+        with:
+          command: build
+          args: --release --target=${{ matrix.target }}
       - name: Compress to zip file
         uses: vimtor/action-zip@v1
         with:
-          files: target/release/${{ matrix.artifact_name }}
-          dest: target/release/${{ matrix.asset_name }}
+          files: target/release/${{ matrix.target }}
+          dest: ${{ matrix.target }}.zip
       - name: Upload binary to release
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.TOKEN_GITHUB }}
-          file: target/release/${{ matrix.asset_name }}
-          asset_name: ${{ matrix.asset_name }}
-          tag: ${{ github.event.client_payload.new_version }}
+          file: ${{ matrix.target }}.zip
+          asset_name: dt-${{ matrix.target }}.zip
+          tag: ${{ steps.new_version.outputs.new-tag }}
