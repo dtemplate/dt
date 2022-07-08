@@ -33,9 +33,9 @@ if (!(Test-Path $BinDir)) {
   New-Item $BinDir -ItemType Directory | Out-Null
 }
 
-curl.exe -Lo $DtZip $DtUri
+curl -Lo $DtZip $DtUri
 
-tar.exe xf $DtZip -C $BinDir
+tar xf $DtZip -C $BinDir
 
 Remove-Item $DtZip
 
