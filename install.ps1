@@ -18,7 +18,7 @@ $BinDir = if ($DtInstall) {
 
 $DtZip = "$BinDir\dt.zip"
 $DtExe = "$BinDir\dt.exe"
-$Target = 'windows-2022'
+$Target = 'x86_64-pc-windows-msvc'
 
 # GitHub requires TLS 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
