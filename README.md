@@ -31,7 +31,7 @@ Create and open a new empty folder and run our hello-world as an example.
 ```sh
 mkdir example-dt
 cd example-dt
-dt new -t Hello-World
+dt new -t hello-world
 ```
 
 ## How to use
@@ -41,7 +41,7 @@ To get started you need to keep in mind one of the community created templates f
 Now run follow the instructions in template documentation or only run:
 
 ```sh
-dt new -t Hello_World
+dt new -t hello-world
 ```
 
 You can get the template name into the [list](https://dtemplate.org/templates).
